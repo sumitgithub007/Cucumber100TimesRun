@@ -1,0 +1,49 @@
+package featurestest;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.junit.Test;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.RunWith;
+import org.junit.runner.notification.Failure;
+import org.junit.runners.Parameterized;
+
+@RunWith(Parameterized.class)
+public class CucumberTestRunnerMultiple {
+
+    private int iteration;
+    private static int numberOfRuns=222;
+    
+    @Parameterized.Parameters
+    public static Collection<Integer> data() {
+        List<Integer> iterations = new ArrayList<>();
+        for (int i = 0; i <= numberOfRuns; i++) { // Adjust the range as needed
+            iterations.add(i);
+        }
+        return iterations;
+    }
+
+    public CucumberTestRunnerMultiple(int iteration) {
+        this.iteration = iteration;
+    }
+
+    @Test
+    public void TestCaseLogin() {
+    	 System.out.println("Running iteration: " + (iteration) + "/" + numberOfRuns);
+    	 System.out.println("\u001B[31m");
+    	 System.out.println("\u001B[1m");
+    	 Result result = JUnitCore.runClasses(CucumberTestRunner.class);
+
+        if (!result.wasSuccessful()) {
+            for (Failure failure : result.getFailures()) {
+                System.out.println(failure.toString());
+            }
+        }
+    }
+}
+
+
+ 
